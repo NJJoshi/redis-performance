@@ -1,0 +1,29 @@
+version: "3"
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres  
+      - TZ=Asia/Kolkata
+      - PGTZ=Asia/Kolkata
+    command: >
+      bash -c "ln -sf /usr/share/zoneinfo/Asia/Kolkata /usr/share/zoneinfo/Asia/Calcutta
+      && docker-entrypoint.sh postgres
+      -c timezone=Asia/Kolkata
+      -c log_timezone=Asia/Kolkata"    
+    volumes:
+      - ./db:/var/lib/postgresql/18/data
+    ports:
+      - 5433:5432
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - 9000:80
