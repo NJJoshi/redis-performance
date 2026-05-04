@@ -30,9 +30,6 @@ public class RedissonConfig {
                     .setNatMapper(new NatMapper() {
                         @Override
                         public RedisURI map(RedisURI uri) {
-                            // This logic is the 'bridge'
-                            // It takes '172.20.0.2' and returns '127.0.0.1'
-                            // But it KEEPS the port (6380, 6381, 6382)
                             return new RedisURI(uri.getScheme(), "127.0.0.1", uri.getPort());
                         }
                     });
